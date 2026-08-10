@@ -1,0 +1,37 @@
+name: Contributor guide
+
+on:
+  pull_request:
+    paths:
+      - CONTRIBUTING.md
+      - .github/workflows/contributor-guide.yml
+      - README.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate contributor guide
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Check required sections
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f CONTRIBUTING.md
+
+          required_sections=(
+            "## Setup"
+            "## Branch workflow"
+            "## Pull request"
+            "## Evidence"
+          )
+
+          for section in "${required_sections[@]}"; do
+            grep -Fqx "$section" CONTRIBUTING.md
+          done
