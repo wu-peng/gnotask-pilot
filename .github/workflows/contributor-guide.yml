@@ -1,0 +1,16 @@
+name: Contributor guide
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    name: Bootstrap contributor guide check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm pull request event
+        shell: bash
+        run: test -n "$GITHUB_SHA"
